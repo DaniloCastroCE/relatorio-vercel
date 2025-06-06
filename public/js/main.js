@@ -470,8 +470,6 @@ const codeHtmlItemToList = (lista_edit, id, item, ordem) => {
     const envioSim = document.querySelector(`#envioSim${id}`)
     const envioNao = document.querySelector(`#envioNao${id}`)
 
-    console.log(item.exec)
-
     nome.value = item.nome
     zona.value = item.zona
     horario.value = item.horario
