@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy Exemplo</title>
+    <style rel="stylesheet" type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            height: 100vh;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="copy" type="button">Copiar</button>
+
+    <script type="text/javascript">
+
+        document.querySelector('#copy').addEventListener('click', async () => {
+
+            const htmlContent = `
+                <div style="
+                    background-color: #ccffcc; 
+                    border: 1px solid #90ee90; 
+                    padding: 15px; 
+                    border-radius: 8px; 
+                    max-width: 400px; 
+                    font-family: Arial, sans-serif; 
+                    color: #006600;">
+
+                    <h2 style="margin-top:0;">Copy teste</h2>
+                    <p><strong>Nome:</strong> Danilo de Castro</p>
+                    <p><strong>Mensagem:</strong> Esse é apenas um copy teste</p>
+
+                </div>
+                "            
+            
+            `
+            const plainText = `Copy teste
+Danilo de Castro
+Esse é apenas um copy teste
+            
+            `
+
+            try {
+
+                await navigator.clipboard.write([
+                    new ClipboardItem({
+                        "text/html": new Blob([htmlContent], { type: "text/html" }),
+                        "text/plain": new Blob([plainText], { type: "text/plain" }),
+                    }),
+                ])
+                
+                alert('Copiado com sucesso !')
+
+            } catch (err) {
+                alert('Error ao copiar')
+                console.error(err)
+            }
+
+        })
+
+    </script>
+</body>
+
+</html>
