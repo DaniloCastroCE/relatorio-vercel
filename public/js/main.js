@@ -1,3 +1,5 @@
+var count_itens = 0
+
 const resizeObserver = new ResizeObserver(entries => {
     for (let entry of entries) {
         const divHeight = entry.contentRect.height
@@ -16,24 +18,26 @@ const loading = (op) => {
     }
 }
 
-const addCountItensToLogo = async () => {
-    try {
-        const text = document.querySelector('#lodoText')
-        const response = await fetch('/countDocuments')
-        const result = await response.json()
+const addCountItensToLogo_sem_mongo = (op) => {
+    
+    const text = document.querySelector('#lodoText')
 
-        if (result.status === 'success') {
-            if (result.qt <= 1) {
-                text.textContent = `${result.qt} registro`
-            } else {
-                text.textContent = `${result.qt} registros`
-            }
-            console.log(text.textContent)
-        }
-    } catch (error) {
-
+    if(op === '+') {
+        count_itens++
+    }else if(op === '-') {
+        count_itens--
+    }else if (op === 'clear') {
+        count_itens = 0
     }
+    
+    if (count_itens <= 1) {
+        text.textContent = `${count_itens} registro`
+    } else {
+        text.textContent = `${count_itens} registros`
+    }
+    console.log('count_itens', count_itens)
 }
+
 
 const toggleMenu = () => {
     const menu = document.querySelector('.menu');
@@ -292,7 +296,6 @@ const addItemToListPrevious = (idInputs, id) => {
     if (id !== '') {
         atualizarItem(id, novoItem)
     }
-    addCountItensToLogo()
 }
 addItemToListPrevious('formInputs')
 
@@ -556,7 +559,6 @@ const atualizarItem = async (id, novoItem) => {
             alert('❌ Error ao tentar atualizar item')
             console.error(`Erro: ${error}`)
             getAllOS(getAllOS_part)
-            addCountItensToLogo()
             loading('close')
         }, 2000)
     }
@@ -581,15 +583,14 @@ const deletarItem = async (event, id, nome) => {
 
         console.log(data.message)
         getAllOS(getAllOS_part)
-        addCountItensToLogo()
         loading('close')
+        addCountItensToLogo_sem_mongo('-')
 
     } catch (error) {
         setTimeout(() => {
             alert('❌ Erro em cancelar item, tente novamente !')
             console.error(`Erro: ${error}`)
             getAllOS(getAllOS_part)
-            addCountItensToLogo()
             loading('close')
         }, 2000)
     }
@@ -621,8 +622,8 @@ const createOS = async (e) => {
             body: JSON.stringify(os)
         })
 
-        if(!response.ok) {
-            throw new Error (`Erro ao tentar criar item: ${response.statusText}`)
+        if (!response.ok) {
+            throw new Error(`Erro ao tentar criar item: ${response.statusText}`)
         }
 
         const data = await response.json()
@@ -631,6 +632,8 @@ const createOS = async (e) => {
         if (data.status === 'success') form.reset()
         addItemToListPrevious('formInputs')
         loading('close')
+
+        addCountItensToLogo_sem_mongo('+')
 
     } catch (error) {
         setTimeout(() => {
@@ -648,11 +651,11 @@ const copyListPrevious = async () => {
         if (!response.ok) {
             throw new Error(`Erro ao tentar copiar relatorio: ${response.statusText}`)
         }
-         
+
         const result = await response.json();
         const list = result.json;
 
-        if(list.length <= 0) {
+        if (list.length <= 0) {
             alert('Não existe itens no relatório para serem copiados !\nRegistre ocorrências na aba TO ADD.')
             loading('close')
             return
@@ -660,15 +663,15 @@ const copyListPrevious = async () => {
 
         const previous = list.map(item => convertFromBancoToPrevious(item));
         console.log(previous)
-    
+
         const fontSizeRest = '12pt';
-    
+
         let htmlContent = '';
         let plainText = '';
-    
-    
+
+
         // LISTAGEM DOS REGISTROS
-    
+
         htmlContent += `<h2 style="
                             font-family: 'Segoe UI', Roboto, sans-serif; 
                             font-weight: 700; 
@@ -676,16 +679,16 @@ const copyListPrevious = async () => {
                             margin: 10px 0 10px;
                             color: #333;
                         "> Relatório de Acionamentos de Maracanaú</h2>\n\n`;
-    
+
         previous.forEach(item => {
             const execOrig = item.exec?.orig;
-    
+
             let bgColor = '#f7f7f7';
             if (execOrig === 'sim') bgColor = '#f2fff4';
             else if (execOrig === 'nao') bgColor = '#fff5f5';
-    
+
             const execColor = execOrig === 'sim' ? '#207a3c' : execOrig === 'nao' ? '#9c2b2b' : '#333';
-    
+
             const cardStyles = `
                 background-color: ${bgColor};
                 border-radius: 16px;
@@ -701,9 +704,9 @@ const copyListPrevious = async () => {
                 line-height: 1.5;
                 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             `;
-    
+
             htmlContent += `<div style="${cardStyles}">`;
-    
+
             const addLine = (value, fontSize = null, bold = false, color = null) => {
                 if (value && value.trim()) {
                     htmlContent += `<p style="
@@ -715,7 +718,7 @@ const copyListPrevious = async () => {
                     plainText += `${value}\n`;
                 }
             };
-    
+
             addLine(item.nome?.modif, '16pt', true, execColor);
             addLine(item.zona?.modif, fontSizeRest);
             addLine(item.horario?.modif, fontSizeRest);
@@ -724,7 +727,7 @@ const copyListPrevious = async () => {
             addLine(item.os?.modif, fontSizeRest);
             addLine(item.obs?.modif, fontSizeRest);
             addLine(item.exec?.modif, fontSizeRest, true, execColor);
-    
+
             htmlContent += '</div>\n\n';
             plainText += '\n\n';
         });
@@ -744,14 +747,14 @@ const copyListPrevious = async () => {
             max-width: 600px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         `;
-    
+
         const executados = previous.filter(item => item.exec?.orig === 'sim')
         const nao_executados = previous.filter(item => item.exec?.orig === 'nao')
         const contato_sim = previous.filter(item => item.contato?.orig === 'sim')
         const contato_nao = previous.filter(item => item.contato?.orig === 'nao')
         const envio_sim = previous.filter(item => item.envio?.orig === 'sim')
         const envio_nao = previous.filter(item => item.envio?.orig === 'nao')
-    
+
         htmlContent += `<div style="${resumoStyles}">
             <p style="margin: 0 0 6px; font-size: ${fontSizeRest};"><strong>Total de registros:</strong> ${previous.length}</p>
             <p style="margin: 0; font-size: ${fontSizeRest};"><strong>Executada: </strong> ${executados.length}</p>
@@ -761,7 +764,7 @@ const copyListPrevious = async () => {
             <p style="margin: 0; font-size: ${fontSizeRest};"><strong>Envio de inspetor: </strong> ${envio_sim.length}</p>
             <p style="margin: 0; font-size: ${fontSizeRest};"><strong>Sem envio de inspetor: </strong> ${envio_nao.length}</p>
         </div>\n\n`;
-    
+
         plainText += `Resumo:\n`;
         plainText += `Total de registros: ${previous.length}\n`;
         plainText += `Executada: ${executados.length}\n`;
@@ -770,27 +773,27 @@ const copyListPrevious = async () => {
         plainText += `Sem contato: ${contato_nao.length}\n`;
         plainText += `Envio de inspetor: ${envio_sim.length}\n`;
         plainText += `Sem envio de inspetor: ${envio_nao.length}\n\n`;
-    
+
         // LISTAGEM DE OS NÃO EXECUTADA RESUMIDA
-    
+
         if (nao_executados.length > 0) {
             htmlContent += `<div style="margin: 10px 5px 40px; font-family: 'Segoe UI', Roboto, sans-serif;">
             <p style="font-weight: bold; margin-bottom: 8px; font-weight: 700; font-size: 18pt; ">OS não executadas:</p>
             <ul style="padding-left: 20px; margin: 0;">
         `;
-    
+
             nao_executados.forEach(item => {
                 const os = item.os?.orig || 'X X X X ';
                 const nome = item.nome?.modif || item.nome?.orig || 'X X X X X X';
                 htmlContent += `<li style="margin-bottom: 4px; font-size: ${fontSizeRest};">${os} - ${nome}</li>`;
                 plainText += `OS não executada: ${os} - ${nome}\n`;
             });
-    
+
             htmlContent += `</ul></div>\n\n`;
             plainText += `\n\n`;
         }
-    
-    
+
+
         try {
             await navigator.clipboard.write([
                 new ClipboardItem({
@@ -804,7 +807,7 @@ const copyListPrevious = async () => {
             alert('❌ Erro ao copiar: ' + err);
             loading('close')
         }
-        
+
     } catch (error) {
         setTimeout(() => {
             alert('❌ Erro ao tentar copiar relatório !')
@@ -827,12 +830,12 @@ const limparList = async () => {
         const data = await response.json()
 
         console.log(data.message)
-        addCountItensToLogo()
         const lista_edit = document.querySelector(`#lista-edit`)
         if (!lista_edit.classList.contains('display-none')) {
             getAllOS(getAllOS_part)
         }
         loading('close')
+        addCountItensToLogo_sem_mongo('clear')
 
     } catch (error) {
         setTimeout(() => {
@@ -844,7 +847,7 @@ const limparList = async () => {
 }
 
 const copy_aux = async (op) => {
-    const nome = document.querySelector('#previous-nome') 
+    const nome = document.querySelector('#previous-nome')
     const zona = document.querySelector('#previous-zona')
     const horario = document.querySelector('#previous-horario')
     const os = document.querySelector('#previous-os')
