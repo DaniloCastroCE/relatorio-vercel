@@ -1,4 +1,4 @@
-var count_itens = 0
+var itens = {count: 0, ativo: false}
 
 const resizeObserver = new ResizeObserver(entries => {
     for (let entry of entries) {
@@ -18,24 +18,49 @@ const loading = (op) => {
     }
 }
 
-const addCountItensToLogo_sem_mongo = (op) => {
+const initAddCountItensToLogo = async () => {
+    try {
+        const text = document.querySelector('#lodoText')
+        const response = await fetch('/countDocuments')
+        const result = await response.json()
+
+        if (result.status === 'success') {
+            itens.count = result.qt
+            itens.ativo =  true
+        }
+    } catch (error) {
+        console.error(`Erro na função addCountItensToLogo: ${error}`)
+        itens.count = 0
+    }
+    addCountItensToLogo()
+}
+
+initAddCountItensToLogo()
+
+const addCountItensToLogo = (op) => {
+
+    if(typeof op === 'undefined') op = ''
     
     const text = document.querySelector('#lodoText')
 
     if(op === '+') {
-        count_itens++
+        itens.count++
     }else if(op === '-') {
-        count_itens--
+        itens.count--
     }else if (op === 'clear') {
-        count_itens = 0
+        itens.count = 0
     }
     
-    if (count_itens <= 1) {
-        text.textContent = `${count_itens} registro`
-    } else {
-        text.textContent = `${count_itens} registros`
+    if(!itens.ativo) {
+        text.textContent = 'Relatório Maracanaú'
     }
-    console.log('count_itens', count_itens)
+    else if (itens.count <= 1) {
+        text.textContent = `${itens.count} registro`
+    } 
+    else {
+        text.textContent = `${itens.count} registros`
+    }
+    console.log('Relatório: ', itens.count)
 }
 
 
@@ -582,7 +607,7 @@ const deletarItem = async (event, id, nome) => {
         console.log(data.message)
         getAllOS(getAllOS_part)
         loading('close')
-        addCountItensToLogo_sem_mongo('-')
+        addCountItensToLogo('-')
 
     } catch (error) {
         setTimeout(() => {
@@ -631,7 +656,7 @@ const createOS = async (e) => {
         addItemToListPrevious('formInputs')
         loading('close')
 
-        addCountItensToLogo_sem_mongo('+')
+        addCountItensToLogo('+')
 
     } catch (error) {
         setTimeout(() => {
@@ -833,7 +858,7 @@ const limparList = async () => {
             getAllOS(getAllOS_part)
         }
         loading('close')
-        addCountItensToLogo_sem_mongo('clear')
+        addCountItensToLogo('clear')
 
     } catch (error) {
         setTimeout(() => {
