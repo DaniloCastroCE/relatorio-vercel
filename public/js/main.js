@@ -90,6 +90,7 @@ const clickMenu = (id) => {
             lista_edit.classList.remove('display-none')
             if (!lista_edit.classList.contains('display-none')) {
                 getAllOS(getAllOS_part)
+                scrollToBottom()
             }
             break;
 
@@ -880,7 +881,8 @@ const copy_aux = async (op) => {
         case 'nome':
             text = nome.textContent
             break;
-        case 'zona' || 'horario':
+        case 'zona':
+        case 'horario':
             text = `${zona.textContent}\n${horario.textContent}`
             break
         case 'os':
@@ -898,3 +900,14 @@ const copy_aux = async (op) => {
     }
 }
 
+const scrollToBottom = () => {
+  try{
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth'
+    })  
+  }catch (error) {
+    console.error('Erro na função scrollToBottom: ', error)
+  }
+  
+}
