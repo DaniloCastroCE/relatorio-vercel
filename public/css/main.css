@@ -142,6 +142,7 @@ main {
     user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    padding: 0 4px;
 }
 
 .form-group fieldset label:last-child {
