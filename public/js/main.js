@@ -90,7 +90,6 @@ const clickMenu = (id) => {
             lista_edit.classList.remove('display-none')
             if (!lista_edit.classList.contains('display-none')) {
                 getAllOS(getAllOS_part)
-                scrollToBottom()
             }
             break;
 
@@ -335,6 +334,7 @@ const getAllOS_part = (status, result, error) => {
             result.forEach((item, index) => {
                 codeHtmlItemToList(lista_edit, item._id, item, (index + 1).toString().padStart(2, '0'))
             })
+            scrollToBottom()
         } else {
             const codeHtml = `
                 <div class="sem-arquivos" id="semArquivos">
@@ -347,6 +347,7 @@ const getAllOS_part = (status, result, error) => {
     } else {
         if (confirm(`Error ao carregar lista, deseja tentar novamente ?\n\nError: ${error}`)) {
             clickMenu('nav-list')
+            scrollToBottom()
         } else {
             clickMenu('nav-add')
         }
