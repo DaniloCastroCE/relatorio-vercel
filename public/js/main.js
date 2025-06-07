@@ -304,15 +304,16 @@ const addItemToListPrevious = (idInputs, id) => {
         })
 
 
-        if (ItemList.envio.orig === 'nao') {
-            document.querySelector(`#${idOs}`).innerHTML = ''
-            document.querySelector(`#${idOs}`).disabled = true
-        }
-        else {
-            document.querySelector(`#${idOs}`).disabled = false
-        }
     }
 
+    if (ItemList.envio.orig === 'nao') {
+        document.querySelector(`#${idOs}`).innerHTML = ''
+        document.querySelector(`#${idOs}`).disabled = true
+    }
+    else {
+        document.querySelector(`#${idOs}`).disabled = false
+    }
+    
     let novoItem = {}
     //console.log(novoItem)
     Object.keys(ItemList).forEach(key => {
