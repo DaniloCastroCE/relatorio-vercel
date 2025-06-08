@@ -703,7 +703,7 @@ const copyListPrevious = async () => {
                             font-weight: 700; 
                             font-size: 18pt; 
                             margin: 10px 0 10px;
-                            color: #333;
+                            color: black;
                         "> Relatório de Acionamentos de Maracanaú</h2>\n\n`;
 
         previous.forEach(item => {
@@ -713,17 +713,16 @@ const copyListPrevious = async () => {
             if (execOrig === 'sim') bgColor = '#f2fff4';
             else if (execOrig === 'nao') bgColor = '#fff5f5';
 
-            const execColor = execOrig === 'sim' ? '#207a3c' : execOrig === 'nao' ? '#9c2b2b' : '#333';
+            const execColor = execOrig === 'sim' ? '#15552a' : execOrig === 'nao' ? '#661c1c' : '#000';
 
             const cardStyles = `
                 background-color: ${bgColor};
                 border-radius: 16px;
                 padding: 20px;
-                margin: 20px 5px 30px;
-    
+                margin: 20px 5px 30px;    
                 font-family: 'Segoe UI', Roboto, sans-serif;
                 font-size: 15px;
-                color: #333;
+                color: black;
                 width: fit-content;
                 min-width: 400px;
                 max-width: 600px;
@@ -763,8 +762,7 @@ const copyListPrevious = async () => {
             border-left: 8px solid #1a73e8;
             border-radius: 12px;
             padding: 16px 20px;
-            margin: 20px 5px 30px;
-    
+            margin: 20px 5px 30px;    
             font-family: 'Segoe UI', Roboto, sans-serif;
             font-size: 14px;
             color: #333;
