@@ -75,6 +75,7 @@ router.get('/checkNome/:nome', async (req, res) => {
     }
 
     const nomeList = await Item.findOne({ nome });
+   
 
     if(!nomeList) {
       return res.status(200).json({
@@ -89,6 +90,7 @@ router.get('/checkNome/:nome', async (req, res) => {
         status: 'success',
         message: 'Nome encontrado',
         exists: true,
+        time: nomeList.horario
       })
     
     }  
