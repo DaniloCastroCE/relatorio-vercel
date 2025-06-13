@@ -37,6 +37,42 @@ const initAddCountItensToLogo = async () => {
 
 initAddCountItensToLogo()
 
+const checkNomeList = async (obj) => {
+  
+  const nome = obj.value.toLowerCase().trim()
+  
+  if(nome){
+    try {
+      const response = await fetch(`/checkNome/${nome}`)
+
+      if(!response.ok){
+        throw new Error(`Falha na requisição: ${response.statusText}`)
+      }
+
+      const result = await response.json()
+
+      showExistsNome(result.exists)
+
+    }catch (err) {
+      console.error(`Erro: ${err}`)
+    }  
+  }
+  
+}
+
+const showExistsNome = (exists) => {
+  if(exists) {
+    const info = document.querySelector('.info-nome-message')
+    info.style.visibility = 'visible';
+    info.style.opacity = 0.5;
+    
+    setTimeout(() => {
+      info.style.opacity = 0;
+      info.style.visibility = 'hidden';
+    }, 5000)
+  }
+}
+
 const addCountItensToLogo = (op) => {
 
     if(typeof op === 'undefined') op = ''
