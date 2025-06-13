@@ -61,6 +61,44 @@ router.get('/get/:id', async (req, res) => {
     }
 })
 
+router.get('/checkNome/:nome', async (req, res) => {
+  
+  try{
+    const nome = req.params.nome.toLowerCase().trim()
+  
+    if(!nome) {
+      return res.status(200).json({
+        status: 'error',
+        message: 'Nome em branco',
+        exists: false,
+      })
+    }
+
+    const nomeList = await Item.findOne({ nome });
+
+    if(!nomeList) {
+      return res.status(200).json({
+        status: 'error',
+        message: 'Não existe o nome',
+        exists: false,
+      })
+    } 
+    else {
+      console.log('requisição ok')
+      return res.status(200).json({
+        status: 'success',
+        message: 'Nome encontrado',
+        exists: true,
+      })
+    
+    }  
+  }catch (err) {
+    console.error(`Erro: ${err.message}`)
+  }
+  
+  
+})
+           
 router.delete('/deleteAll', async (req, res) => {
     try {
         const result = await Item.deleteMany({})
