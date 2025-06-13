@@ -64,7 +64,7 @@ const showExistsNome = (time) => {
     const texto = time !== '' && time !== undefined && time !== null ? `(${time})` : ''
     const info = document.querySelector('.info-nome-message')
     const textInfo = info.querySelector('p')
-    textInfo.textContent = `Existe o nome na lista! ${texto}`
+    textInfo.textContent = `Nome encontrado na lista! ${texto}`
     info.style.visibility = 'visible';
     info.style.opacity = 0.5;
     
