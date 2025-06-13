@@ -50,8 +50,8 @@ const checkNomeList = async (obj) => {
       }
 
       const result = await response.json()
-
-      showExistsNome(result.exists)
+      
+      if(result.exists) showExistsNome(result.time)
 
     }catch (err) {
       console.error(`Erro: ${err}`)
@@ -60,17 +60,19 @@ const checkNomeList = async (obj) => {
   
 }
 
-const showExistsNome = (exists) => {
-  if(exists) {
+const showExistsNome = (time) => {
+    const texto = time !== '' && time !== undefined && time !== null ? `(${time})` : ''
     const info = document.querySelector('.info-nome-message')
+    const textInfo = info.querySelector('p')
+    textInfo.textContent = `Existe o nome na lista! ${texto}`
     info.style.visibility = 'visible';
     info.style.opacity = 0.5;
     
     setTimeout(() => {
       info.style.opacity = 0;
       info.style.visibility = 'hidden';
-    }, 5000)
-  }
+    }, 10000)
+
 }
 
 const addCountItensToLogo = (op) => {
