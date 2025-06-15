@@ -438,7 +438,7 @@ const codeHtmlItemToList = (lista_edit, id, item, ordem) => {
             <form id="formInputs${id}" onsubmit="deletarItem(event,'${id}', '${item.nome.toUpperCase()}');">
                 <div class="form-group">
                     <label for="nome${id}">Nome</label>
-                    <input type="text" name="nome" id="nome${id}" required onchange="addItemToListPrevious('formInputs','${id}');">
+                    <input class="nomePreviousInput" type="text" name="nome" id="nome${id}" required onchange="addItemToListPrevious('formInputs','${id}');">
                 </div>
                 <div class="form-group flex-direction-row">
                     <div class="form-group">
