@@ -77,10 +77,10 @@ const showExistsNome = (time) => {
     } else {
         textInfo.textContent = `Nome encontrado na lista! ${texto}`
         info.style.visibility = 'visible';
-        info.style.opacity = 0.5;
+        info.style.opacity = 0.7;
 
         infoAddOs.style.visibility = 'visible';
-        infoAddOs.style.opacity = 0.5;
+        infoAddOs.style.opacity = 1;
 
         setTimeout(() => {
             info.style.opacity = 0;
@@ -115,7 +115,7 @@ const addCountItensToLogo = (op) => {
     else {
         text.textContent = `${itens.count} registros`
     }
-    console.log('Relatório: ', itens.count)
+    //console.log('Relatório: ', itens.count)
 }
 
 
@@ -401,12 +401,8 @@ const getAllOS_part = (status, result, error) => {
         }
 
     } else {
-        if (confirm(`Error ao carregar lista, deseja tentar novamente ?\n\nError: ${error}`)) {
-            clickMenu('nav-list')
-            scrollToBottom()
-        } else {
-            clickMenu('nav-add')
-        }
+        alert(`Erro ao carregar lista, tente novamente ! \n\nMotivo do erro: ${error}`)
+        clickMenu('nav-add')
     }
 }
 
@@ -419,14 +415,15 @@ const getAllOS = async (callback) => {
         if (data.status === 'success') {
             console.log(data.message)
             callback(data.status, data.json)
+            loading('close')
         } else {
             callback(data.status, data.message, data.error)
+            loading('close')
         }
 
 
     } catch (err) {
         console.error(`Erro: ${err}`)
-    } finally {
         loading('close')
     }
 }
@@ -527,7 +524,7 @@ const codeHtmlItemToList = (lista_edit, id, item, ordem) => {
         </div>
 
         <div class="previous listaPrevious">
-            <h5 id="preVisualizacao${id}" class="no-select">Pré-Visualização</h5>
+            <h5 id="preVisualizacao${id}" class="no-select preVisualizacaoList">Pré-Visualização</h5>
             <p id="previous-nome${id}" class="previous-nome ${classExec}"></p>
             <p id="previous-zona${id}"></p>
             <p id="previous-horario${id}"></p>
@@ -692,7 +689,7 @@ const createOS = async (e) => {
         obs: form.obs.value,
     }
 
-    console.log(os)
+    //console.log(os)
 
     try {
         const response = await fetch('/create', {
@@ -710,6 +707,7 @@ const createOS = async (e) => {
         const data = await response.json()
 
         alert(data.message)
+        console.log(data.message)
         if (data.status === 'success') form.reset()
         addItemToListPrevious('formInputs')
         loading('close')
@@ -760,6 +758,8 @@ const copyListPrevious = async () => {
                             margin: 10px 0 10px;
                             color: black;
                         "> Relatório de Acionamentos de Maracanaú</h2>\n\n`;
+
+        plainText += `Relatório de Acionamentos de Maracanaú\n\n\n`
 
         previous.forEach(item => {
             const execOrig = item.exec?.orig;
