@@ -434,7 +434,7 @@ const getAllOS = async (callback) => {
     }
 }
 
-getAllOS(getAllOS_part)
+//getAllOS(getAllOS_part)
 
 const codeHtmlItemToList = (lista_edit, id, item, ordem) => {
 
