@@ -1,4 +1,4 @@
-var itens = {count: 0, ativo: false}
+var itens = { count: 0, ativo: false }
 
 const resizeObserver = new ResizeObserver(entries => {
     for (let entry of entries) {
@@ -26,7 +26,7 @@ const initAddCountItensToLogo = async () => {
 
         if (result.status === 'success') {
             itens.count = result.qt
-            itens.ativo =  true
+            itens.ativo = true
         }
     } catch (error) {
         console.error(`Erro na função addCountItensToLogo: ${error}`)
@@ -38,63 +38,80 @@ const initAddCountItensToLogo = async () => {
 initAddCountItensToLogo()
 
 const checkNomeList = async (obj) => {
-  
-  const nome = obj.value.toLowerCase().trim()
-  
-  if(nome){
-    try {
-      const response = await fetch(`/checkNome/${nome}`)
 
-      if(!response.ok){
-        throw new Error(`Falha na requisição: ${response.statusText}`)
-      }
+    const nome = obj.value.toLowerCase().trim()
 
-      const result = await response.json()
-      
-      if(result.exists) showExistsNome(result.time)
+    if (nome) {
+        try {
+            const response = await fetch(`/checkNome/${nome}`)
 
-    }catch (err) {
-      console.error(`Erro: ${err}`)
-    }  
-  }
-  
+            if (!response.ok) {
+                throw new Error(`Falha na requisição: ${response.statusText}`)
+            }
+
+            const result = await response.json()
+
+            if (result.exists) showExistsNome(result.time)
+
+        } catch (err) {
+            console.error(`Erro: ${err}`)
+        }
+    } else {
+        showExistsNome('nulo')
+    }
+
 }
 
 const showExistsNome = (time) => {
     const texto = time !== '' && time !== undefined && time !== null ? `(${time})` : ''
-    const info = document.querySelector('.info-nome-message')
+    const info = document.querySelector('#exists-name')
+    const infoAddOs = document.querySelector('#exists-name-addOs')
     const textInfo = info.querySelector('p')
-    textInfo.textContent = `Nome encontrado na lista! ${texto}`
-    info.style.visibility = 'visible';
-    info.style.opacity = 0.5;
-    
-    setTimeout(() => {
-      info.style.opacity = 0;
-      info.style.visibility = 'hidden';
-    }, 10000)
+
+    if (time === 'nulo') {
+        info.style.opacity = 0;
+        info.style.visibility = 'hidden';
+        infoAddOs.style.opacity = 0;
+        infoAddOs.style.visibility = 'hidden';
+
+    } else {
+        textInfo.textContent = `Nome encontrado na lista! ${texto}`
+        info.style.visibility = 'visible';
+        info.style.opacity = 0.5;
+
+        infoAddOs.style.visibility = 'visible';
+        infoAddOs.style.opacity = 0.5;
+
+        setTimeout(() => {
+            info.style.opacity = 0;
+            info.style.visibility = 'hidden';
+            infoAddOs.style.opacity = 0;
+            infoAddOs.style.visibility = 'hidden';
+        }, 10000)
+    }
 
 }
 
 const addCountItensToLogo = (op) => {
 
-    if(typeof op === 'undefined') op = ''
-    
+    if (typeof op === 'undefined') op = ''
+
     const text = document.querySelector('#lodoText')
 
-    if(op === '+') {
+    if (op === '+') {
         itens.count++
-    }else if(op === '-') {
+    } else if (op === '-') {
         itens.count--
-    }else if (op === 'clear') {
+    } else if (op === 'clear') {
         itens.count = 0
     }
-    
-    if(!itens.ativo) {
+
+    if (!itens.ativo) {
         text.textContent = 'Relatório Maracanaú'
     }
     else if (itens.count <= 1) {
         text.textContent = `${itens.count} registro`
-    } 
+    }
     else {
         text.textContent = `${itens.count} registros`
     }
@@ -351,7 +368,7 @@ const addItemToListPrevious = (idInputs, id) => {
     else {
         document.querySelector(`#${idOs}`).disabled = false
     }
-    
+
     let novoItem = {}
     //console.log(novoItem)
     Object.keys(ItemList).forEach(key => {
@@ -939,13 +956,13 @@ const copy_aux = async (op) => {
 }
 
 const scrollToBottom = () => {
-  try{
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: 'smooth'
-    })  
-  }catch (error) {
-    console.error('Erro na função scrollToBottom: ', error)
-  }
-  
+    try {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        })
+    } catch (error) {
+        console.error('Erro na função scrollToBottom: ', error)
+    }
+
 }
