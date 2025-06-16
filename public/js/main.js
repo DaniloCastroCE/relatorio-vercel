@@ -62,11 +62,17 @@ const checkNomeList = async (obj) => {
 
 }
 
+let timeoutId;
+
 const showExistsNome = (time) => {
     const texto = time !== '' && time !== undefined && time !== null ? `(${time})` : ''
     const info = document.querySelector('#exists-name')
     const infoAddOs = document.querySelector('#exists-name-addOs')
     const textInfo = info.querySelector('p')
+
+    if (timeoutId) {
+        clearTimeout(timeoutId)
+    }
 
     if (time === 'nulo') {
         info.style.opacity = 0;
@@ -82,7 +88,7 @@ const showExistsNome = (time) => {
         infoAddOs.style.visibility = 'visible';
         infoAddOs.style.opacity = 1;
 
-        setTimeout(() => {
+        timeoutId = setTimeout(() => {
             info.style.opacity = 0;
             info.style.visibility = 'hidden';
             infoAddOs.style.opacity = 0;
@@ -755,7 +761,7 @@ const copyListPrevious = async () => {
                             font-family: 'Segoe UI', Roboto, sans-serif; 
                             font-weight: 700; 
                             font-size: 18pt; 
-                            margin: 10px 0 10px;
+                            margin: 10px 0 20px;
                             color: black;
                         "> Relatório de Acionamentos de Maracanaú</h2>\n\n`;
 
