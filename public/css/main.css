@@ -35,6 +35,10 @@ main {
   height: auto;
 }
 
+.sectionToAdd {
+  position: relative;
+}
+
 .addOs,
 .itemList {
   display: flex;
@@ -113,6 +117,17 @@ main {
   fill: blue;
   width: 20px;
   height: auto;
+}
+
+#exists-name-addOs {
+  left: auto;
+  right: 5px;
+  top: 5px;
+  z-index: 2;
+}
+
+#exists-name-addOs svg{
+  width: 25px;
 }
 
 .form-group input,
