@@ -127,7 +127,7 @@ main {
 }
 
 #exists-name-addOs svg{
-  width: 25px;
+  width: 30px;
 }
 
 .form-group input,
@@ -228,13 +228,13 @@ main {
 }
 
 .previous .previous-nome {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-weight: bold;
   text-transform: uppercase;
 }
 
-#preVisualizacao {
-  margin-bottom: 20px;
+#preVisualizacao, .preVisualizacaoList {
+  margin-bottom: 5px;
 }
 
 .itemList {
