@@ -151,7 +151,7 @@ router.delete('/delete/:id', async (req, res) => {
 router.post('/create', async (req, res) => {
     const { nome, zona, horario, contato, envio, os, obs } = req.body
 
-    if (!nome || !zona || !contato || !envio) {
+    if (!nome) {
         return res.status(422).json({
             status: 'error',
             message: 'Obrigatorio preenchar os campos NOME e ZONA',
@@ -177,7 +177,7 @@ router.put('/update/:id', async (req, res) => {
         const id = req.params.id
         const { nome, zona, horario, contato, envio, os, obs, exec } = req.body
 
-        if (!nome || !zona || !contato || !envio) {
+        if (!nome) {
             return res.status(422).json({
                 status: 'error',
                 message: 'Obrigatorio preenchar os campos NOME e ZONA',
