@@ -9,7 +9,6 @@ const itemSchema = new mongoose.Schema({
     },
     zona: {
         type: String,
-        required: true,
         trim: true,
     },
     horario: {
@@ -18,11 +17,9 @@ const itemSchema = new mongoose.Schema({
     },
     contato: {
         type: String,
-        required: true,
     },
     envio: {
         type: String,
-        required: true,
     },
     os: {
         type: String,
