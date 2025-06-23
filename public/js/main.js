@@ -804,7 +804,7 @@ const copyListPrevious = async () => {
                         ${color ? 'color:' + color + ';' : ''}
                         ${fontSize ? 'font-size:' + fontSize + ';' : ''}
                         ">${value}</p>`;
-                    plainText += `${value}\n`;
+                    plainText += `${value.replace(/<br\s*\/?>/gi, "\n")}\n`;
                 }
             };
 
