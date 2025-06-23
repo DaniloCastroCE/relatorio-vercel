@@ -273,7 +273,7 @@ const editPrevious = (ItemList) => {
                     ItemList.os.modif = ''
                 }
                 else if (ItemList.envio.orig === 'sim') {
-                    ItemList.os.modif = `O.S ${ItemList.os.orig.trim()}`
+                    ItemList.os.modif = `O.S. ${ItemList.os.orig.trim()}`
                 }
                 break
             case 'exec':
