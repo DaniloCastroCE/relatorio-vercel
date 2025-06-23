@@ -225,6 +225,9 @@ const editPrevious = (ItemList) => {
                 else if (ItemList.zona.orig.toLowerCase().trim() === 'energia' || ItemList.zona.orig === '0') {
                     ItemList.zona.modif = 'Falta de energia'
                 }
+                else if (ItemList.zona.orig.toLowerCase().trim() === 'ronda') {
+                    ItemList.zona.modif = 'Motivo: Ronda'
+                }
                 else {
                     ItemList.zona.modif = `Disparo na zona ${ItemList.zona.orig}`
                 }
