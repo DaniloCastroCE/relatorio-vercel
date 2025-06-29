@@ -466,7 +466,7 @@ const codeHtmlItemToList = (lista_edit, id, item, ordem) => {
                 <div class="form-group flex-direction-row">
                     <div class="form-group">
                         <label for="zona${id}">Zona</label>
-                        <input type="text" name="zona" id="zona${id}" required onchange="addItemToListPrevious('formInputs','${id}');">
+                        <input type="text" name="zona" id="zona${id}" onchange="addItemToListPrevious('formInputs','${id}');">
                     </div>
                     <div class="form-group form-group-horario">
                         <label for="horario${id}">Horário</label>
