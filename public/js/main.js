@@ -873,7 +873,7 @@ const copyListPrevious = async () => {
             nao_executados.forEach(item => {
                 const os = item.os?.orig || 'X X X X ';
                 const nome = item.nome?.modif || item.nome?.orig || 'X X X X X X';
-                htmlContent += `<li style="margin-bottom: 4px; font-size: ${fontSizeRest};">${os} - ${nome}</li>`;
+                htmlContent += `<li style="margin-bottom: 4px; font-size: ${fontSizeRest};">${os}  | ${nome}</li>`;
                 plainText += `OS não executada: ${os} - ${nome}\n`;
             });
 
