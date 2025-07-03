@@ -947,7 +947,7 @@ const copy_aux = async (op) => {
             break;
         case 'zona':
         case 'horario':
-            text = `${zona.textContent}\n${horario.textContent}`
+            text = `${zona.textContent} / ${horario.textContent}`
             break
         case 'os':
             text = `${os.textContent} / ${zona.textContent} / ${horario.textContent}`
