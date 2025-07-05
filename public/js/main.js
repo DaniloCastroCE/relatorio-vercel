@@ -393,11 +393,12 @@ const getAllOS_part = (status, result, error) => {
     const lista_edit = document.querySelector(`#lista-edit`)
     lista_edit.innerHTML = ''
 
+    addCountItensToLogo("clear");
     if (status === 'success') {
-
         if (result.length > 0) {
             result.forEach((item, index) => {
                 codeHtmlItemToList(lista_edit, item._id, item, (index + 1).toString().padStart(2, '0'))
+                addCountItensToLogo("+");
             })
             scrollToBottom()
         } else {
@@ -411,6 +412,7 @@ const getAllOS_part = (status, result, error) => {
 
     } else {
         alert(`Erro ao carregar lista, tente novamente ! \n\nMotivo do erro: ${error}`)
+        addCountItensToLogo();
         clickMenu('nav-add')
     }
 }
